@@ -15,9 +15,6 @@ $hosts = @()
 
 $sNet | ForEach-Object {
     if ((ping "$ipcut.$_" -n 1 -w 200 |Select-String 'ms'|Out-String).Trim() -gt 10) {
-        if ($ipcut.$_ -eq $ip) {
-            
-        }
         $discoveredhost = (((arp -a).Trim() | Select-String "$ipcut.$_ ") | Out-String).Replace('dynamic','').Replace('-',':').Replace('           ', ' - ').Replace('          ', ' - ').Replace('         ', ' - ').Trim()        
         Write-Host "[+]" $discoveredhost "is up!"
         $hosts += $discoveredhost
