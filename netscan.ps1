@@ -47,10 +47,10 @@ $hosts | ForEach-Object {
     $j++
 }
 
-Write-Host "[*] Running portscan for discovered hosts..."
+Write-Host "[*] Running portscan on discovered hosts..."
 
 $ips | ForEach-Object {
-    Write-Host "[*] Scanning open ports for $_..."
+    Write-Host "[*] Scanning for open ports on $_..."
     for ($port = 1 ; $port -le 1024 ; $port++){    
         $TCPClient = New-Object Net.Sockets.TCPClient
         $isopen = $TCPClient.ConnectAsync("$_",$port).Wait(150)
