@@ -8,7 +8,7 @@ $oct3=([ipaddress] $ip).GetAddressBytes()[3]
 $ipcutup="$oct0 $oct1 $oct2 $oct3"
 $ipcut="$oct0.$oct1.$oct2"
 $ipaddresscut= "$oc0 $oc1 $oc2"
-$sNet = 1..50
+$sNet = 1..255
 $all = $sNet.Count
 $i = 1
 
