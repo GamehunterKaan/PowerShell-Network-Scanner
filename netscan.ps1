@@ -8,13 +8,16 @@ $oct3=([ipaddress] $ip).GetAddressBytes()[3]
 $ipcutup="$oct0 $oct1 $oct2 $oct3"
 $ipcut="$oct0.$oct1.$oct2"
 $ipaddresscut= "$oc0 $oc1 $oc2"
-$sNet = 1..255
+$sNet = 1..50
 $all = $sNet.Count
 $i = 1
+
 $hosts = @()
+$ips = @()
 
 $sNet | ForEach-Object {
     if ((ping "$ipcut.$_" -n 1 -w 200 |Select-String 'ms'|Out-String).Trim() -gt 10) {
+        $ips += "$ipcut.$_"
         $discoveredhost = (((arp -a).Trim() | Select-String "$ipcut.$_ ") | Out-String).Replace('dynamic','').Replace('-',':').Replace('           ', ' - ').Replace('          ', ' - ').Replace('         ', ' - ').Trim()        
         Write-Host "[+]" $discoveredhost "is up!"
         $hosts += $discoveredhost
@@ -36,11 +39,24 @@ $sNet | ForEach-Object {
 
 $j = 0
 
-Write-Host ''
 Write-Host "[*] Scanned 255 hosts."
 Write-Host "[*] Discovered hosts: "
 
 $hosts | ForEach-Object {
     Write-Host " - " $hosts[$j]
     $j++
+}
+
+Write-Host "[*] Running portscan for discovered hosts..."
+
+$ips | ForEach-Object {
+    "[*] Scanning open ports for $_..."
+    for ($port = 1 ; $port -le 1024 ; $port++){    
+        $TCPClient = New-Object Net.Sockets.TCPClient
+        $isopen = $TCPClient.ConnectAsync("$_",$port).Wait(150)
+        if ($isopen) {
+            Write-Host "[+]Port $port is open on $_!"
+        }
+        $TCPClient.Dispose()
+    }
 }
