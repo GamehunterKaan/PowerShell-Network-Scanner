@@ -61,3 +61,4 @@ $ips | ForEach-Object {
         $TCPClient.Dispose()
     }
 }
+Write-Host "[+]Done!"
