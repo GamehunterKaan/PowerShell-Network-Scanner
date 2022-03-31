@@ -1,5 +1,5 @@
 # PowerShell-Network-Scanner
-This is a PowerShell Script that scans the local network to find alive hosts and their open ports between 1-1024.
+This is a PowerShell script that scans the local network, finds alive hosts and then scans their top 1000 ports.(according to nmap)
 
 <h2>Quick use:</h2>
 
