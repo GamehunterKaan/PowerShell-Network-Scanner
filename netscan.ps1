@@ -56,7 +56,7 @@ $ips | ForEach-Object {
         $TCPClient = New-Object Net.Sockets.TCPClient
         $isopen = $TCPClient.ConnectAsync("$_",$top1000[$port]).Wait(150)
         if ($isopen) {
-            Write-Host "[+]Port " + $top1000[$port] + " is open on $_!"
+            Write-Host "[+]Port " $top1000[$port] " is open on $_!"
         }
         $TCPClient.Dispose()
     }
